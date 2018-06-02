@@ -1,0 +1,11 @@
+#ignore node_modules
+/node_modules
+
+
+#ignore dist directory
+/dist
+.vscode
+
+#ignore any log files
+*.log
+
