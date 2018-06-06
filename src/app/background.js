@@ -1,15 +1,50 @@
-chrome.runtime.onInstalled.addListener(function() {
-	chrome.storage.sync.set({color: '#3aa757'}, function() {
-		console.log("The color is green.");
+
+chrome.browserAction.onClicked.addListener((e) => {
+	if(chrome.browsingData){
+	chrome.browsingData.settings((result) => {
+		console.log("setting = ", result);
+		/** cacheStorage is not supported by remove method */
+		delete (result.dataToRemove.cacheStorage);
+		chrome.browsingData.remove(result.options, result.dataToRemove, () => {
+			console.log("Cache cleared successfully");
+			console.log(chrome.extension.getURL('assets/icons/cpu0-128.png'));
+			chrome.browserAction.setIcon({
+				path :  {
+					"16": chrome.extension.getURL('assets/icons/cpu0-16.png'),
+					"64": chrome.extension.getURL('assets/icons/cpu0-64.png'),
+					"128": chrome.extension.getURL('assets/icons/cpu0-128.png')
+				  },
+			  });
+		});
 	});
+	}else{
+		console.error("Supported browser version should be >= Chrome Dev 19.0.1041.0")
+	}
 });
 
-chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-	chrome.declarativeContent.onPageChanged.addRules([{
-		conditions: [new chrome.declarativeContent.PageStateMatcher({
-			pageUrl: {hostEquals: 'developer.chrome.com', },
-		})
-		],
-				actions: [new chrome.declarativeContent.ShowPageAction()]
-	}]);
+
+
+/**
+ * to be used later when other options for extension are added
+ */
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+
+	if (request.action === 'clearCache') {
+		console.log("message received ", request);
+		console.log("browsing data ", chrome.browsingData);
+
+		chrome.browsingData.settings((result) => {
+			console.log("setting = ", result);
+			delete (result.dataToRemove.cacheStorage);
+			chrome.browsingData.remove(result.options, result.dataToRemove, () => {
+				console.log("Cache cleared successfully");
+			});
+
+		});
+	}
+
 });
+
+
+

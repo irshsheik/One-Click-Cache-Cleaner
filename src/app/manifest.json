@@ -1,15 +1,10 @@
 {
-  "name": "Bookmark Reader",
+  "name": "one-click Cache cleaner",
   "description": "Read Bookmarks and save them offline",
   "manifest_version": 2,
   "version": "1.0",
   "permissions": [
-    "tabs",
-    "<all_urls>",
-    "bookmarks",
-    "notifications",
-    "storage",
-    "declarativeContent"
+    "browsingData"
   ],
   "background": {
     "scripts": [
@@ -17,24 +12,13 @@
     ],
     "persistent": false
   },
-  // "browser_action": {
-  //   "default_icon": {
-  //     "16": "assets/icons/main-16.png",
-  //     "32": "assets/icons/main-32.png"
-  //   }
-  // },
-  "page_action": {
-    "default_popup" : "./popup.html",
+  "browser_action": {
     "default_icon": {
-          "16": "assets/icons/main-16.png",
-          "32": "assets/icons/main-32.png"
-        }
-  },
-  "commands": {
-    "_execute_browser_action": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+B"
-      }
-    }
+      "16": "assets/icons/cpu1-16.png",
+      "64": "assets/icons/cpu1-64.png",
+      "128": "assets/icons/cpu1-128.png"
+    },
+    "default_title": "Silent Cache Cleaner"//,
+    // "default_popup": "popup.html"
   }
 }
