@@ -1,5 +1,5 @@
 {
-  "name": "one-click Cache cleaner",
+  "name": "One-Click Cache Cleaner",
   "description": "Read Bookmarks and save them offline",
   "manifest_version": 2,
   "version": "1.0",
@@ -20,6 +20,6 @@
       "128": "assets/icons/speedometer-128.png",
       "256": "assets/icons/speedometer-256.png"
     },
-    "default_title": "one-click Cache cleaner"
+    "default_title": "One-Click Cache Cleaner"
   }
 }
