@@ -10,9 +10,11 @@ chrome.browserAction.onClicked.addListener((e) => {
 			console.log(chrome.extension.getURL('assets/icons/cpu0-128.png'));
 			chrome.browserAction.setIcon({
 				path :  {
-					"16": chrome.extension.getURL('assets/icons/cpu0-16.png'),
-					"64": chrome.extension.getURL('assets/icons/cpu0-64.png'),
-					"128": chrome.extension.getURL('assets/icons/cpu0-128.png')
+					"16": chrome.extension.getURL("assets/icons/speedometer-l-16.png"),
+					"32": chrome.extension.getURL("assets/icons/speedometer-l-32.png"),
+					"64": chrome.extension.getURL("assets/icons/speedometer-l-64.png"),
+					"128": chrome.extension.getURL("assets/icons/speedometer-l-128.png"),
+					"256": chrome.extension.getURL("assets/icons/speedometer-l-256.png"),
 				  },
 			  });
 		});

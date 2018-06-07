@@ -14,7 +14,7 @@ const BUILD = 'dist';
 const config = {
     context: path.resolve(__dirname, SRC),
     entry: {
-        background: './app/background.js',
+        background: './app/js/background.js',
         /** init-comment */
         // app : './app/app.module.js'
         // vendor: to be added 
@@ -119,13 +119,13 @@ const config = {
         //     cache : true
         //   }),
 
-        new HtmlWebpackPlugin({
-            title : 'Advanced Bookmark Manager',
-            template :'./app/popup.html',
-            chunks : ['jquery','angular','app'],
-            filename: "./popup.html",
-            cache : true
-          }),
+        // new HtmlWebpackPlugin({
+        //     title : 'Advanced Bookmark Manager',
+        //     template :'./app/popup.html',
+        //     chunks : ['jquery','angular','app'],
+        //     filename: "./popup.html",
+        //     cache : true
+        //   }),
 
           new webpack.ProvidePlugin({ // inject ES5 modules as global vars
             $: 'jquery',

@@ -14,11 +14,12 @@
   },
   "browser_action": {
     "default_icon": {
-      "16": "assets/icons/cpu1-16.png",
-      "64": "assets/icons/cpu1-64.png",
-      "128": "assets/icons/cpu1-128.png"
+      "16": "assets/icons/speedometer-16.png",
+      "32": "assets/icons/speedometer-32.png",
+      "64": "assets/icons/speedometer-64.png",
+      "128": "assets/icons/speedometer-128.png",
+      "256": "assets/icons/speedometer-256.png"
     },
-    "default_title": "Silent Cache Cleaner"//,
-    // "default_popup": "popup.html"
+    "default_title": "one-click Cache cleaner"
   }
 }
