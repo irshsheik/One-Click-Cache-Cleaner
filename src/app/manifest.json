@@ -2,9 +2,10 @@
   "name": "One-Click Cache Cleaner",
   "description": "Read Bookmarks and save them offline",
   "manifest_version": 2,
-  "version": "1.0",
+  "version": "1.0.0",
   "permissions": [
-    "browsingData"
+    "browsingData",
+    "notifications" 
   ],
   "background": {
     "scripts": [

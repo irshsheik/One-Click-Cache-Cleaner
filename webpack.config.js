@@ -4,7 +4,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
@@ -127,12 +126,12 @@ const config = {
         //     cache : true
         //   }),
 
-          new webpack.ProvidePlugin({ // inject ES5 modules as global vars
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery',      
-            Tether: 'tether'
-          })
+        //   new webpack.ProvidePlugin({ // inject ES5 modules as global vars
+        //     $: 'jquery',
+        //     jQuery: 'jquery',
+        //     'window.jQuery': 'jquery',      
+        //     Tether: 'tether'
+        //   })
         //new UglifyJSPlugin({ test: /\.js($|\?)/i }),
     ]
 
