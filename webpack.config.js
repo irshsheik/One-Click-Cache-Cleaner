@@ -13,7 +13,7 @@ const BUILD = 'dist';
 const config = {
     context: path.resolve(__dirname, SRC),
     entry: {
-        background: './app/js/background.js',
+        background: './app/main/background.js',
         /** init-comment */
         // app : './app/app.module.js'
         // vendor: to be added 
@@ -132,7 +132,7 @@ const config = {
         //     'window.jQuery': 'jquery',      
         //     Tether: 'tether'
         //   })
-        //new UglifyJSPlugin({ test: /\.js($|\?)/i }),
+        new UglifyJSPlugin({ test: /\.js($|\?)/i }),
     ]
 
 };
