@@ -132,7 +132,7 @@ const config = {
         //     'window.jQuery': 'jquery',      
         //     Tether: 'tether'
         //   })
-        new UglifyJSPlugin({ test: /\.js($|\?)/i }),
+        // new UglifyJSPlugin({ test: /\.js($|\?)/i }),
     ]
 
 };
