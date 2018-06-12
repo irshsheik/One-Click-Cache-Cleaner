@@ -1,4 +1,4 @@
-import iconService from '../service/IconService'
+import iconService from '../services/IconService'
 
 class CleanerService {
     constructor() {

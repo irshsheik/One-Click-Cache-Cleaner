@@ -1,4 +1,4 @@
-import cleanerService from '../service/CleanerService';
+import cleanerService from '../services/CleanerService';
 
 chrome.tabs.onCreated.addListener(function (t) {
 	console.log("created tab with id = ", t.id);

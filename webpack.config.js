@@ -14,6 +14,7 @@ const config = {
     context: path.resolve(__dirname, SRC),
     entry: {
         background: './app/main/background.js',
+        options: './app/main/options.js'
         /** init-comment */
         // app : './app/app.module.js'
         // vendor: to be added 
@@ -98,14 +99,13 @@ const config = {
     plugins:[
         new CleanWebpackPlugin(['dist']),
         /** init-comment */
-        // new ExtractTextPlugin('assets/css/app.css'),
+        new ExtractTextPlugin('assets/css/app.css'),
         new CopyWebpackPlugin([
             {from:'./app/assets/icons',to:'./assets/icons/'} 
         ]),
         new CopyWebpackPlugin([
             {from:'./app/manifest.json',to:'./'} 
         ]), 
-       /** init-comment */
         // new CopyWebpackPlugin([
         //     {from:'./app/templates',to:'./templates'} 
         // ]),
@@ -118,13 +118,12 @@ const config = {
         //     cache : true
         //   }),
 
-        // new HtmlWebpackPlugin({
-        //     title : 'Advanced Bookmark Manager',
-        //     template :'./app/popup.html',
-        //     chunks : ['jquery','angular','app'],
-        //     filename: "./popup.html",
-        //     cache : true
-        //   }),
+        new HtmlWebpackPlugin({
+            template :'./app/templates/options.html',
+            // chunks : ['jquery','angular','app'],
+            filename: "./options.html",
+            cache : true
+          }),
 
         //   new webpack.ProvidePlugin({ // inject ES5 modules as global vars
         //     $: 'jquery',
