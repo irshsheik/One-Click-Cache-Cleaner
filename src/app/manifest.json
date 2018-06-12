@@ -2,9 +2,10 @@
   "name": "One-Click Cache Cleaner",
   "description": "Silently clean cache with just one click",
   "manifest_version": 2,
-  "version": "1.0.0.3",
+  "version": "1.0.0.4",
   "permissions": [
     "browsingData",
+    "storage",
     "notifications",
     "cookies",
     "history",    

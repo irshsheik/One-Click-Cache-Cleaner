@@ -31,14 +31,19 @@ class CleanerService {
          * Iterate through each cookie store and count the total number of cookies
          */
         chrome.cookies.getAllCookieStores((cks) => {
+            var total = 0;
             cks.forEach((ck) => {
+                console.log("each store..");
                 chrome.cookies.getAll(
                     { storeId: ck.id },
                     (ck) => {
                         console.log('cookies', ck);
-                        _this.add('cookies', _this.sc.cookies + ck.length);
+                         total = total+ ck.length;
+                         _this.add('cookies', total);
                     });
             });
+
+            
         });
         chrome.history.search({ text: '', maxResults: 1000 }, (data) => {
             console.log("history data = ", data);
