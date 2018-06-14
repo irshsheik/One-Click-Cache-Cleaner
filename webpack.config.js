@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -120,18 +121,21 @@ const config = {
 
         new HtmlWebpackPlugin({
             template :'./app/templates/options.html',
+            excludeAssets: [/background.*.js/],
             // chunks : ['jquery','angular','app'],
             filename: "./options.html",
             cache : true
           }),
+          new HtmlWebpackExcludeAssetsPlugin(),
 
-        //   new webpack.ProvidePlugin({ // inject ES5 modules as global vars
-        //     $: 'jquery',
-        //     jQuery: 'jquery',
-        //     'window.jQuery': 'jquery',      
-        //     Tether: 'tether'
-        //   })
-        new UglifyJSPlugin({ test: /\.js($|\?)/i }),
+          new webpack.ProvidePlugin({ // inject ES5 modules as global vars
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',      
+            Tether: 'tether'
+          }),
+          
+        // new UglifyJSPlugin({ test: /\.js($|\?)/i }),
     ]
 
 };

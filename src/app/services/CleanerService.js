@@ -117,6 +117,28 @@ class CleanerService {
         _this.removeCookies();
         _this.removeHistory();
         _this.query();
+        
+        chrome.notifications.getPermissionLevel((e)=>{ console.log(e);
+        
+            chrome.notifications.create(
+                'SUCCESS_CLEAN',
+                {
+                   type: "image",
+                   iconUrl: "../assets/icons/speedometer-l-32.png",
+                   title : "One Click Cache Cleaner",
+                   message : "Yo!.. Cache cleaned successfully"
+                  },
+                 ()=>{
+    
+                 });
+            setTimeout(()=>{
+                chrome.notifications.clear('SUCCESS_CLEAN', ()=>{});
+            },1000);
+        
+        
+        });
+        
+
     }
 
 

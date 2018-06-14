@@ -19,5 +19,6 @@
   },
   "browser_action": {
     "default_title": "One-Click Cache Cleaner"
-  }
+  },
+  "options_page": "options.html"
 }
