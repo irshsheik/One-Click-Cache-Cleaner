@@ -1,3 +1,72 @@
-.options-body{
-    background-color: #f1f1f1;
+.card {
+    background-color: #EEEEEE !important;
+}
+
+
+    .options.list-group {
+        .list-group-item {
+            background-color: #EEEEEE !important;
+            border-left-width: 0px !important;
+            border-right-width: 0px !important;
+            
+        }
+    }
+
+.material-switch {
+    > input[type="checkbox"] {
+        display: none;
+
+        &:checked {
+            & + label {
+                &::before {
+                    background: inherit;
+                    opacity: 0.5;
+                }
+            }
+        }
+
+        &:checked {
+            & + label {
+                &::after {
+                    background: $red;
+                    left: 30px;
+                }
+            }
+        }
+    }
+
+    > label {
+        cursor: pointer;
+        height: 0px;
+        position: relative;
+        width: 50px;
+        background-color: $red;
+
+        &::before {
+            background: rgb(0, 0, 0);
+            box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            content: '';
+            height: 20px;
+            margin-top: -8px;
+            position: absolute;
+            opacity: 0.3;
+            transition: all 0.4s ease-in-out;
+            width: 50px;
+        }
+
+        &::after {
+            background: rgb(255, 255, 255);
+            border-radius: 16px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+            content: '';
+            height: 30px;
+            left: -4px;
+            margin-top: -8px;
+            position: absolute;
+            top: -5px;
+            transition: all 0.3s ease-in-out;
+            width: 30px;
+        }
+    }
 }
