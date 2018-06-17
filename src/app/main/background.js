@@ -1,4 +1,9 @@
 import cleanerService from '../services/CleanerService';
+import optionService from '../services/OptionService';
+
+/** set the initial option defaults */
+optionService.setDefaults();
+
 
 chrome.tabs.onCreated.addListener(function (t) {
 	console.log("created tab with id = ", t.id);

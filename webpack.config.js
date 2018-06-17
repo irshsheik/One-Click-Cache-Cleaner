@@ -128,12 +128,10 @@ const config = {
           }),
           new HtmlWebpackExcludeAssetsPlugin(),
 
-          new webpack.ProvidePlugin({ // inject ES5 modules as global vars
+          new webpack.ProvidePlugin({
             $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery',      
-            Tether: 'tether'
-          }),
+            jQuery: 'jquery'
+          })
           
         // new UglifyJSPlugin({ test: /\.js($|\?)/i }),
     ]

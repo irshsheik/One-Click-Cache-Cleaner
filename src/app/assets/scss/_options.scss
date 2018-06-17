@@ -70,3 +70,118 @@
         }
     }
 }
+
+
+// Range
+//
+// Style range inputs the same across browsers. Vendor-specific rules for pseudo
+// elements cannot be mixed. As such, there are no shared styles for focus or
+// active states on prefixed selectors.
+
+.custom-range-v1 {
+    width: 100%;
+    padding-left: 0; // Firefox specific
+    background-color: transparent;
+    appearance: none;
+    padding-top: .8rem;
+    &:focus {
+      outline: none;
+    }
+  
+    &::-moz-focus-outer {
+      border: 0;
+    }
+  
+    &::-webkit-slider-thumb {
+      width: 30px;
+      height: 30px;
+      margin-top: -($custom-range-thumb-width * .30); // Webkit specific?
+      @include gradient-bg($custom-range-thumb-bg);
+      background-color: $white;
+      border: $custom-range-thumb-border;
+      @include border-radius($custom-range-thumb-border-radius);
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    //   @include box-shadow($custom-range-thumb-box-shadow);
+      transition: all 0.4s ease-in-out;
+      appearance: none;
+  
+      &:focus {
+        outline: none;
+        box-shadow: $custom-range-thumb-focus-box-shadow; // No mixin for focus accessibility
+      }
+  
+      &:active {
+        background: $red;
+        transition: all 0.4s ease-in-out;
+        // @include gradient-bg($custom-range-thumb-active-bg);
+      }
+    }
+  
+    &::-webkit-slider-runnable-track {
+      width: $custom-range-track-width;
+      height: 15px;
+      color: transparent; // Why?
+      cursor: $custom-range-track-cursor;
+      background-color: $custom-range-track-bg;
+      border-color: transparent;
+      @include border-radius($custom-range-track-border-radius);
+      @include box-shadow($custom-range-track-box-shadow);
+      transition: all 0.4s ease-in-out;
+    
+    }
+ 
+  }
+  
+
+  .custom-range-v2 {
+    width: 100%;
+    padding-left: 0; // Firefox specific
+    background-color: transparent;
+    appearance: none;
+    padding-top: .8rem;
+    &:focus {
+      outline: none;
+    }
+  
+    &::-moz-focus-outer {
+      border: 0;
+    }
+  
+    &::-webkit-slider-thumb {
+      width: 30px;
+      height: 30px;
+      margin-top: -($custom-range-thumb-width * .30); // Webkit specific?
+      @include gradient-bg($custom-range-thumb-bg);
+      background-color: $red;
+      border: $custom-range-thumb-border;
+      @include border-radius($custom-range-thumb-border-radius);
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    //   @include box-shadow($custom-range-thumb-box-shadow);
+      appearance: none;
+      transition: all 0.4s ease-in-out;
+  
+      &:focus {
+        outline: none;
+        box-shadow: $custom-range-thumb-focus-box-shadow; // No mixin for focus accessibility
+      }
+  
+      &:active {
+        background: $red;
+        transition: all 0.4s ease-in-out;
+        // @include gradient-bg($custom-range-thumb-active-bg);
+      }
+    }
+  
+    &::-webkit-slider-runnable-track {
+      width: $custom-range-track-width;
+      height: 15px;
+      color: transparent; // Why?
+      cursor: $custom-range-track-cursor;
+      background-color: $white;
+      border-color: $custom-range-track-bg;
+    //   border-color: transparent;
+      @include border-radius($custom-range-track-border-radius);
+      @include box-shadow($custom-range-track-box-shadow);    
+    }
+  }
+  

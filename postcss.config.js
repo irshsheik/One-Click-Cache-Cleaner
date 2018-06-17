@@ -3,6 +3,6 @@ module.exports = {
         'rucksack-css':{},
         'lost':{},
         'autoprefixer':{},
-       // 'cssnano':{}
+    //    'cssnano':{}
     }
 };
