@@ -1,12 +1,24 @@
 import '../assets/scss/app.scss';
 
-import optionService from '../services/OptionService'
+import OptionService from '../services/OptionService'
 
 
-optionService.renderAllSyncValues('reload', 'notif','cleanAll','since','range');
-// optionService.renderStatesOnChange('reload', 'notif','cleanAll','since','range');
-optionService.syncAllChanges('reload', 'notif','cleanAll','since','range');
-// optionService.toggleClassOnChange( 'since','rg-1', 'custom-range-v1','custom-range-v2');
+
+var reloadEle = document.getElementById('reload');
+var notifEle = document.getElementById('notif');
+var cleanAllEle = document.getElementById('cleanAll');
+var sinceEle = document.getElementById('since');
+var rangeEle = document.getElementById('range');
+
+console.log('reloadEle = ',reloadEle);
+
+var optionService = new OptionService(reloadEle, notifEle,cleanAllEle,sinceEle,rangeEle);
+optionService.renderAllSyncValues(()=>{
+    optionService.syncAllChanges();
+    optionService.renderStatesOnChange();
+});
+
+
 
 
 

@@ -5,183 +5,216 @@
 
 
 class OptionService {
-    constructor() {
+    /**
+     * 
+     * @param {*} reload the reload element
+     * @param {*} notif the notification element
+     * @param {*} cleanAll the cleanAll element
+     * @param {*} since  the since input element
+     * @param {*} range the range element
+     */
+    constructor(reload, notif, cleanAll, since, range) {
         this.defaultValue = true;
         this.defaultDuration = 10;
+        this.reloadEle = reload;
+        this.notifEle = notif;
+        this.cleanAllEle = cleanAll;
+        this.sinceEle = since;
+        this.rangeEle = range;
     }
 
-    syncAllChanges(reload, notif, cleanAll, since, range) {
-        this.setReload(reload);
-        this.setNotification(notif);
-        this.setCleanAll(cleanAll);
-        this.setSince(since, range);
-        this.setRange(range, since);
-    }
-
-
-    setReload(reload) {
+        /**
+     * renders all the options values on reload
+     */
+    renderAllSyncValues(callback) {
         var _this = this;
-        var reloadEle = document.getElementById(reload);
-        reloadEle.addEventListener('input', () => {
-            chrome.storage.sync.set({ reload: reloadEle.checked }, function () {
-                console.log('reload Value is set to ' + reloadEle.checked);
-            });
+        chrome.storage.sync.get(['reload', 'notification', 'cleanAll', 'since'], (r) => {
+            console.log(r);
+            _this.reloadEle.checked = r.reload;
+            _this.notifEle.checked = r.notification;
+            _this.cleanAllEle.checked = r.cleanAll;
+            _this.sinceEle.value = r.since;
+            _this.rangeEle.value = r.since;
+            _this.toggleRangeClass(r.since,'custom-range-v1','custom-range-v2');
+            _this.disbleRange_Since();
+
+            if( callback  && typeof callback == 'function'){
+                callback();
+            }
         });
     }
 
-    setNotification(notif) {
-        var _this = this;
-        var notifEle = document.getElementById(notif);
-        notifEle.addEventListener('input', () => {
-            chrome.storage.sync.set({ notification: notifEle.checked }, function () {
-                console.log('notification Value is set to ' + notifEle.checked);
-            });
-        });
+    /** set the values to storage values upon a change in option */
+    syncAllChanges() {
+        this.setReload();
+        this.setNotification();
+        this.setCleanAll();
+        this.setSince();
+        this.setRange();
     }
 
-    setCleanAll(cleanAll) {
-        var _this = this;
-        var cleanAllEle = document.getElementById(cleanAll);
-        cleanAllEle.addEventListener('input', () => {
-            chrome.storage.sync.set({ cleanAll: cleanAllEle.checked }, function () {
-                console.log('cleanAll Value is set to ' + cleanAllEle.checked);
-            });
-        });
-    }
-
-    setSince(since) {
-        var _this = this;
-        var sinceEle = document.getElementById(since);
-        sinceEle.addEventListener('input', () => {
-            chrome.storage.sync.get(['cleanAll'], (r) => {
-                if (!r.cleanAll) {
-                    chrome.storage.sync.set({ since: sinceEle.value }, function () {
-                        console.log('since Value is set to ' + sinceEle.value);
-                    });
-                }
-            });
-        });
-    }
-    setRange(range) {
-        var _this = this;
-        var rangeEle = document.getElementById(range);
-        rangeEle.addEventListener('input', () => {
-            chrome.storage.sync.get(['cleanAll'], (r) => {
-                if (!r.cleanAll) {
-                    chrome.storage.sync.set({ since: rangeEle.value }, function () {
-                        console.log('since/range Value is set to ' + rangeEle.value);
-                    });
-                }
-            });
-        });
-    }
-
-    renderStatesOnChange(reload, notif, cleanAll, since, range) {
+       /** render states on change */
+       renderStatesOnChange() {
         var _this = this;
         chrome.storage.onChanged.addListener((o, areaName) => {
+            console.log("on change listner = ",o, areaName);
             if (areaName === 'sync') {
                 if (o.reload) {
-                    _this.renderReloadState(reload, o.reload.newValue);
+
+                    _this.renderReloadState(o.reload.newValue);
                 }
                 else if (o.notification) {
-                    _this.renderNotificationState(notif, o.notification.newValue);
+                    _this.renderNotificationState( o.notification.newValue);
                 }
                 else if (o.cleanAll) {
-                    _this.renderCleanAllState(cleanAll, o.cleanAll.newValue);
+                    _this.renderCleanAllState( o.cleanAll.newValue);
+                    _this.disbleRange_Since();
                 }
                 else if (o.since) {
-                    _this.renderSinceState(since, o.since.newValue);
-                    _this.renderRangeState(range, o.since.newValue);
+                    _this.renderSinceState(o.since.newValue);
+                    _this.renderRangeState(o.since.newValue);
+                    _this.toggleRangeClass(o.since.newValue , 'custom-range-v1', 'custom-range-v2');
                 }
             }
         });
     }
 
-
-    renderAllSyncValues(reload, notif, cleanAll, since, range) {
-        /** set default UI values from memory */
-        var reloadEle = document.getElementById(reload);
-        var notifEle = document.getElementById(notif);
-        var cleanAllEle = document.getElementById(cleanAll);
-        var sinceEle = document.getElementById(since);
-        var rangeEle = document.getElementById(range);
-
-        chrome.storage.sync.get(['reload', 'notification', 'cleanAll', 'since'], (r) => {
-            console.log(r);
-            reloadEle.checked = r.reload;
-            notifEle.checked = r.notification;
-            cleanAllEle.checked = r.cleanAll;
-            sinceEle.value = r.since;
-            rangeEle.value = r.since;
-        });
-    }
-
-    renderReloadState(reload, value) {
-        var reloadEle = document.getElementById(reload);
-        reloadEle.checked = value;
-    }
-    renderNotificationState(notif, value) {
-        var notifEle = document.getElementById(notif);
-        notifEle.checked = value;
-    }
-    renderCleanAllState(cleanAll, value) {
-        var cleanAllEle = document.getElementById(cleanAll);
-        cleanAllEle.checked = value;
-    }
-    renderSinceState(since, value) {
-        var sinceEle = document.getElementById(since);
-        sinceEle.value = value;
-    }
-    renderRangeState(range, value) {
-        var rangeEle = document.getElementById(range);
-        rangeEle.value = value
-    }
-
-
-
-    /**
-     *  rangeId    */
-    // toggleClassOnChange(sinceId, rangeId, clsToRemove, clsToAdd) {
-    //     var _this = this;
-    //     var since = document.getElementById(sinceId);
-    //     var range = document.getElementById(rangeId);
-    //     range.addEventListener('input', () => {
-    //         since.value = range.value;
-    //         _this.toggle(range, clsToRemove, clsToAdd);
-    //     });
-    //     since.addEventListener('input', () => {
-    //         range.value = since.value;
-    //         _this.toggle(range, clsToRemove, clsToAdd);
-    //     });
-    // }
-
-    // toggle(e, clsToRemove, clsToAdd) {
-    //     if (parseFloat(e.value) >= 0) {
-    //         e.classList.remove(clsToRemove);
-    //         e.classList.add(clsToAdd);
-    //     }
-    //     else if (parseFloat(e.value) === 0) {
-    //         e.classList.remove(clsToAdd);
-    //         e.classList.add(clsToRemove);
-    //     }
-    // }
-
-    setDefaults() {
+    /**set reload on changes */
+    setReload() {
         var _this = this;
-        chrome.storage.sync.set({ reload: _this.defaultValue }, function () {
-            console.log('reload Value is set to ' + _this.defaultValue);
+        _this.reloadEle.addEventListener('input', () => {
+            chrome.storage.sync.set({ reload: _this.reloadEle.checked }, function () {
+                console.log('reload Value is set to ' + _this.reloadEle.checked);
+            });
         });
-        chrome.storage.sync.set({ notification: _this.defaultValue }, function () {
-            console.log('reload Value is set to ' + _this.defaultValue);
+    }
+
+    /**set notification on changes */
+    setNotification() {
+        var _this = this;
+        _this.notifEle.addEventListener('input', () => {
+            chrome.storage.sync.set({ notification: _this.notifEle.checked }, function () {
+                console.log('notification Value is set to ' + _this.notifEle.checked);
+            });
         });
-        chrome.storage.sync.set({ cleanAll: _this.defaultValue }, function () {
-            console.log('reload Value is set to ' + _this.defaultValue);
+    }
+
+    /** set clean on changes */
+    setCleanAll() {
+        var _this = this;
+        _this.cleanAllEle.addEventListener('input', () => {
+            chrome.storage.sync.set({ cleanAll: _this.cleanAllEle.checked }, function () {
+                console.log('cleanAll Value is set to ' + _this.cleanAllEle.checked);
+            });
         });
-        chrome.storage.sync.set({ since: _this.defaultDuration }, function () {
-            console.log('reload Value is set to ' + _this.defaultDuration);
+    }
+
+    /**set Since on changes */
+    setSince() {
+        var _this = this;
+        _this.sinceEle.addEventListener('input', () => {
+            var beforeSince =_this.rangeEle.value;
+            chrome.storage.sync.get(['cleanAll'], (r) => {
+                console.log("check for clean aal", r.cleanAll);
+                if (!r.cleanAll) {
+                    chrome.storage.sync.set({ since: _this.sinceEle.value }, function () {
+                        console.log('since Value is set to ' + _this.sinceEle.value);
+                    });
+                }else{
+                    _this.renderSinceState(beforeSince);
+                    _this.renderRangeState(beforeSince);
+                }
+            });
+        });
+    }
+
+    /**set range on changes */
+    setRange() {
+        var _this = this;
+        _this.rangeEle.addEventListener('input', () => {
+            var beforeSince =_this.sinceEle.value;
+            chrome.storage.sync.get(['cleanAll'], (r) => {
+                console.log("check for clean aal", r.cleanAll);
+                if (!r.cleanAll) {
+                    chrome.storage.sync.set({ since: _this.rangeEle.value }, function () {
+                        console.log('since/range Value is set to ' + _this.rangeEle.value);
+                    });
+                }else{
+                    _this.renderSinceState(beforeSince);
+                    _this.renderRangeState(beforeSince);
+                }
+            });
+        });
+    }
+
+     renderReloadState(value) {
+        var _this = this;
+        _this.reloadEle.checked = value;
+    }
+    renderNotificationState(value) {
+        var _this = this;
+        _this.notifEle.checked = value;
+    }
+    renderCleanAllState(value) {
+        var _this = this;
+        _this.cleanAllEle.checked = value;
+    }
+    renderSinceState(value) {
+        var _this = this;
+        _this.sinceEle.value = value;
+    }
+    renderRangeState(value) {
+        var _this = this;
+        _this.rangeEle.value = value
+    }
+
+
+
+    toggleRangeClass(value, clsToRemove, clsToAdd) {
+        var _this = this;
+        if (parseFloat(value) > 0) {
+            console.log("toggle on >= ",value)
+            _this.rangeEle.classList.remove(clsToRemove);
+            _this.rangeEle.classList.add(clsToAdd);
+        }
+        else if (parseFloat(value) === 0) {
+            console.log("toggle on === ", value)
+            _this.rangeEle.classList.remove(clsToAdd);
+            _this.rangeEle.classList.add(clsToRemove);
+        }
+    }
+
+    /** disable range and since fields if cleanALl is true */
+    disbleRange_Since(){
+        var _this = this;
+        if(_this.cleanAllEle.checked){
+            _this.sinceEle.disabled = true;
+            _this.rangeEle.disabled = true;
+            _this.toggleRangeClass(0,'custom-range-v1','custom-range-v2');
+        }else{
+            _this.sinceEle.removeAttribute("disabled");
+            _this.rangeEle.removeAttribute("disabled");
+            _this.toggleRangeClass(_this.sinceEle.value,'custom-range-v1','custom-range-v2');
+        }
+    }
+
+    static setDefaults() {
+        var defaultValue = true;
+        var defaultDuration = 10;
+        chrome.storage.sync.set({ reload: defaultValue }, function () {
+            console.log('reload Value is set to ' + defaultValue);
+        });
+        chrome.storage.sync.set({ notification: defaultValue }, function () {
+            console.log('reload Value is set to ' + defaultValue);
+        });
+        chrome.storage.sync.set({ cleanAll: defaultValue }, function () {
+            console.log('reload Value is set to ' + defaultValue);
+        });
+        chrome.storage.sync.set({ since: defaultDuration }, function () {
+            console.log('reload Value is set to ' + defaultDuration);
         });
 
     }
 
 }
-export default new OptionService();
+export default OptionService;
