@@ -38,19 +38,18 @@ class CleanerService {
                     { storeId: ck.id },
                     (ck) => {
                         console.log('cookies', ck);
-                         total = total+ ck.length;
-                         _this.add('cookies', total);
+                        total = total + ck.length;
+                        _this.add('cookies', total);
                     });
             });
-
-            
         });
+
+        /** calculate history values */
         chrome.history.search({ text: '', maxResults: 1000 }, (data) => {
             console.log("history data = ", data);
             _this.add('history', data.length);
             console.log("scc =", _this.sc);
         });
-
     };
 
     add(key, value) {
@@ -80,67 +79,93 @@ class CleanerService {
         return Object.keys(_sc)
             .reduce(function (sum, key) {
                 if (typeof _sc[key] === 'number') {
-                    sum = ((sum || 0) < _sc[key] ) ? _sc[key] : sum ;
-                } 
+                    sum = ((sum || 0) < _sc[key]) ? _sc[key] : sum;
+                }
                 return sum;
             }, 0);
     };
 
-    removeHistory(){
-        if(chrome.history){
-            chrome.history.deleteAll(()=>{
-                console.log("History cleared successfully");
-            });
-        }else{
-            console.error("Supported browser == Chrome Dev 19.0.1041.0");
-        }
-    }
-
-    removeCookies(){
+    /**   */
+    removeCache(callback) {
         var _this = this;
-        if (chrome.browsingData) {
-            chrome.browsingData.settings((result) => {
-                console.log("setting = ", result);
-                /** cacheStorage is not supported by remove method */
-                delete (result.dataToRemove.cacheStorage);
-                chrome.browsingData.remove(result.options, result.dataToRemove, () => {
-                    console.log("Cache cleared successfully");
+
+        chrome.storage.sync.get(['reload', 'reloadActive', 'notification', 'cleanAll', 'since'], (r) => {
+            console.log(r);
+            var since = 0;
+            var config = { status: 'complete' };
+
+            /** if cleanALl = true. then since is overridden to 0 */
+            if (r.cleanAll) {
+                since = 0;
+            } else if (parseFloat(r.since) > 0) {
+                var millis = 1000 * 60 * 60 * 24 * parseFloat(r.since);
+                since = (new Date()).getTime() - millis;
+            }
+
+            /** if reloadActive is true. then only active tabs are set */
+            if (r.reloadActive) {
+                config.active = r.reloadActive;
+            }
+
+            if (chrome.browsingData) {
+                chrome.browsingData.settings((result) => {
+                    console.log("setting = ", result);
+                    /** cacheStorage is not supported. removing it*/
+                    delete (result.dataToRemove.cacheStorage);
+                    console.log(" before result.options.since = ", result.options.since);
+                    /** adding since .overrides the default browser settitngs */
+                    result.options.since = since;
+                    console.log("since = ", since);
+                    console.log("result.options.since = ", result.options.since);
+                    chrome.browsingData.remove(
+                        result.options,
+                        result.dataToRemove,
+                        () => {
+                            console.log("Cache cleared successfully");
+                            if (r.reload || r.reloadActive) {
+                                _this.reloadTabs(config);
+                            }
+                            _this.processCallback(callback);
+                        });
                 });
+            } else {
+                console.error("Supported browser == Chrome Dev 19.0.1041.0");
+            }
+        });
+    }
+
+    /**
+     * 
+     */
+    removeAll(callback) {
+        var _this = this;
+        this.removeCache(() => {
+            _this.processCallback(callback);
+        });
+       
+    }
+
+    /**
+     * reload all tabs
+     */
+    reloadTabs(config) {
+        chrome.tabs.query(config, (tabs) => {
+            tabs.forEach((tab) => {
+                if (tab.url) {
+                    chrome.tabs.update(tab.id, { url: tab.url }, (t) => {
+                        console.log('reload finished for tab ', t.id, t.url);
+                    });
+                }
             });
-        } else {
-            console.error("Supported browser == Chrome Dev 19.0.1041.0");
+        });
+    }
+
+    processCallback(callback) {
+        if (callback && typeof callback === 'function') {
+            console.log("callback = ", callback);
+            callback();
         }
     }
-
-    removeAll(){
-        var _this = this;
-        _this.removeCookies();
-        _this.removeHistory();
-        _this.query();
-        
-        chrome.notifications.getPermissionLevel((e)=>{ console.log(e);
-        
-            chrome.notifications.create(
-                'SUCCESS_CLEAN',
-                {
-                   type: "image",
-                   iconUrl: "../assets/icons/speedometer-l-32.png",
-                   title : "One Click Cache Cleaner",
-                   message : "Yo!.. Cache cleaned successfully"
-                  },
-                 ()=>{
-    
-                 });
-            setTimeout(()=>{
-                chrome.notifications.clear('SUCCESS_CLEAN', ()=>{});
-            },1000);
-        
-        
-        });
-        
-
-    }
-
 
 }//end class
 

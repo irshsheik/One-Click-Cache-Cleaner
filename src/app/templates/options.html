@@ -13,27 +13,24 @@
 <body class="options-body">
     <div class="container mt-3">
         <div class="row">
-            <div class="col-12">
+            <div class="col">
                 <div class="card w-100">
                     <div class="row mt-3 card-body">
 
                         <div class="col-2 ml-5">
                             <img class="card-img-top" src="../assets/icons/speedometer-256.png" alt="Card image cap">
                         </div>
-                        <div class="col-7">
+                        <div class="col-6">
                             <h2 class="pt-3 card-title">One Click Cache Cleaner</h2>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                <ul class="list-group list-group-flush features">
-                                    <li class="list-group-item">Configure the options which work for you.</li>
-                                    <li class="list-group-item">Clear cache silenty as u wish.</li>
-                                    <li class="list-group-item">Set timelines since when u want to clear.</li>
-                                    <!-- <li class="list-group-item">Mention pages which u want to exclude.</li> -->
-                                </ul>
+                            <h6 class="card-subtitle mb-2  ml-5 text-muted">
+                                <span>Easily customize and  silently clean.</span>
+                                <br/>
+                                <button type="button" id='clean-now' class="btn btn-outline-danger btn-sm mt-4 ml-5">Clean Now</button>
                             </h6>
-                            <button type="button" class="btn btn-danger ml-5">Clean Now</button>
                         </div>
                         <div class="col"></div>
                     </div>
+                   
                     <div class="card-body">
                         <h5 class="card-title">
                             <b>Options</b>
@@ -42,13 +39,22 @@
                     </div>
                     <!-- List group -->
                     <ul class="options list-group">
+                        
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col"> Reload Tab</div>
+                                <div class="col"> Reload</div>
+                                <div class="col">All Tabs :</div>
                                 <div class="col">
                                     <div class="material-switch pull-right">
                                         <input id="reload" name="tab-reload" type="checkbox" />
                                         <label for="reload" class="label-success"></label>
+                                    </div>
+                                </div>
+                                <div class="col">Only Active Tabs :</div>
+                                <div class="col">
+                                    <div class="material-switch pull-right">
+                                        <input id="reload-active" name="tab-reload-active" type="checkbox" />
+                                        <label for="reload-active" class="label-success"></label>
                                     </div>
                                 </div>
                             </div>
@@ -87,8 +93,8 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend2">Since:</span>
                                         </div>
-                                        <input type="number" class="form-control" id="since" placeholder="" value="0" max="30" min="0"  aria-describedby="inputGroupPrepend2">
-                                        <span class="input-group-text" id="inputGroupPrepend2">Days</span> 
+                                        <input type="number" class="form-control" id="since" placeholder="" value="0" max="30" min="0" aria-describedby="inputGroupPrepend2" disabled>
+                                        <span class="input-group-text" id="inputGroupPrepend2">Days</span>
                                     </div>
                                 </div>
                                 <div class="col"></div>
@@ -97,6 +103,15 @@
                                 </div>
                             </div>
                         </li>
+                        <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col"> Maximum Limit for Icon Indicator </div>
+                                    <div class="col-2">
+                                        <input type="number" class="form-control" id="max-limit" placeholder="" value="0" max="1000" min="0">
+                                    </div>
+                                    <div class="col"></div>
+                                </div>
+                            </li>
                     </ul>
                     <div class="card-body">
                         <!-- <a href="#" class="card-link">Card link</a>

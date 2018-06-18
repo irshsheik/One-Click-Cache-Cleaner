@@ -2,8 +2,9 @@ import cleanerService from '../services/CleanerService';
 import optionService from '../services/OptionService';
 
 /** set the initial option defaults */
-optionService.setDefaults();
-
+chrome.runtime.onInstalled.addListener(()=>{
+	optionService.setDefaults();
+});
 
 chrome.tabs.onCreated.addListener(function (t) {
 	console.log("created tab with id = ", t.id);
@@ -26,14 +27,29 @@ chrome.runtime.onStartup.addListener(()=>{
 chrome.runtime.onInstalled.addListener(()=>{
 	console.log("yo.. installed..");
 	cleanerService.query();
-	console.log("cache size = ", cleanerService.sc);
+	
+});
+
+chrome.runtime.onMessage.addListener((message,sender, sendMessage)=>{
+	if(message.action === 'clear-cache'){
+		cleanerService.removeAll(()=>{
+			console.log("callback called.. ");
+			sendMessage({'status': true, "message":"cache cleared successfully"});
+			console.log("after sendMessage");
+			cleanerService.query();
+		});
+		//call send message asynchronously
+		return true;
+	}
 });
 
  /* clear cache since 0
  * +will be changed once the option page
  */
 chrome.browserAction.onClicked.addListener((e) => {
-	cleanerService.removeAll();
+	cleanerService.removeAll(()=>{
+		cleanerService.query();
+	});
 });
 
 
