@@ -16,6 +16,7 @@ new OptionService(reloadEle, reloadActiveEle, notifEle, cleanAllEle, sinceEle, r
     _this.syncAllChanges();
     _this.renderStatesOnChange();
     _this.processClearCache();
+    _this.processMaxLimitChange();
 });
 
 

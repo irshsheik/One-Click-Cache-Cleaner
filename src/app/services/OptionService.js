@@ -1,8 +1,8 @@
-var _isEmpty = require('lodash/isEmpty');
 /**
  * provide public methods to perform dom actions
  */
 
+var _isEmpty = require('lodash/isEmpty');
 
 class OptionService {
     /**
@@ -34,6 +34,16 @@ class OptionService {
         _this.clearNowEle.addEventListener('click', (event) => {
             chrome.runtime.sendMessage({ action: 'clear-cache' }, (resp) => {
                 console.log("response recieved from clearCache as ", resp);
+            });
+        });
+    }
+
+    /** send message to query the data to update indicator on change of max limit */
+    processMaxLimitChange() {
+        var _this = this;
+        _this.maxLimitEle.addEventListener('change', (event) => {
+            chrome.runtime.sendMessage({ action: 'query' }, (resp) => {
+                console.log("response recieved from action:query", resp);
             });
         });
     }

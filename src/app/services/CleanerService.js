@@ -53,21 +53,25 @@ class CleanerService {
     };
 
     add(key, value) {
-        this.sc[key] = value;
-        var maxVal = this.caculate();
-        console.log("app.caclutate = ", maxVal, this.LIMIT);
-        if (maxVal >= this.LIMIT) {
-            console.log("Limit is high");
-            iconService.setHighIcon();
-        }
-        else if (maxVal >= this.LIMIT / 2) {
-            console.log("limit is medium");
-            iconService.setMedIcon();
-        }
-        else if (maxVal < this.LIMIT / 2) {
-            console.log("limit is low");
-            iconService.setLowIcon();
-        }
+        var _this = this;
+        _this.sc[key] = value;
+        var maxVal = _this.caculate();
+        chrome.storage.sync.get(['reload', 'reloadActive', 'notification', 'cleanAll', 'since', 'maxLimit'], (r) => {
+            var limit = r.maxLimit ? r.maxLimit : _this.LIMIT;
+            console.log("app.caclutate = ", maxVal, limit);
+            if (maxVal >= limit) {
+                console.log("Limit is high");
+                iconService.setHighIcon();
+            }
+            else if (maxVal >= limit / 2) {
+                console.log("limit is medium");
+                iconService.setMedIcon();
+            }
+            else if (maxVal < limit / 2) {
+                console.log("limit is low");
+                iconService.setLowIcon();
+            }
+        });
     };
 
     /**
@@ -142,7 +146,7 @@ class CleanerService {
         this.removeCache(() => {
             _this.processCallback(callback);
         });
-       
+
     }
 
     /**
