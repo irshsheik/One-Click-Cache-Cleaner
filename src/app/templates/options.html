@@ -14,7 +14,7 @@
     <div class="container mt-3">
         <div class="row">
             <div class="col"></div>
-            <div class="col-6">
+            <div class="col-7">
                 <div class="card">
                     <div class="row mt-3 card-body">
 
@@ -22,20 +22,29 @@
                             <img class="card-img-top" src="../assets/icons/speedometer-256.png" alt="Card image cap">
                         </div>
                         <div class="col-8">
-                            <h5 class="pt-3 card-title"><b>One Click Cache Cleaner</b></h5>
+                            <h5 class="pt-3 card-title">
+                                <b>One Click Cache Cleaner</b>
+                            </h5>
                             <h6 class="card-subtitle mb-2  ml-1 text-muted">
-                                <span>Easily customize and silently clean.</span>
-                                <br/>
-                                <button type="button" id='clean-now' class="btn btn-outline-danger btn-sm mt-4 ml-5">Clean Now</button>
+                                <span>Easily customize and silently clean.</span><br/>
+                                <span>Click the toolbar icon to clean</span>
+                                <!-- <br/> -->
+                                <button type="button" id='clean-now' class="btn btn-outline-danger btn-sm mt-2 ml-5">Clean Now</button>
                             </h6>
                         </div>
                         <!-- <div class="col"></div> -->
                     </div>
 
-                    <div class="card-body">
-                        <h6 class="card-title">
+                    <div class="card-body pt-0">
+                        <div class="alert alert-info alert-info " role="alert">
+                            This extension does not override default browser options set by you.
+                            <br/> Use
+                            <kbd>ctrl + Shift + Del</kbd> to check your current options.
+                           
+                        </div>
+                        <h5 class="card-title">
                             <b>Options</b>
-                        </h6>
+                        </h5>
                         <h6 class="card-subtitle  text-muted">Configure the options below</h6>
                     </div>
                     <!-- List group -->
@@ -43,15 +52,23 @@
 
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col"><h6 class="pt-2"><b> Reload</b></h6></div>
-                                <div class="col"> <h6 class="pt-2">All Tabs :</h6></div>
+                                <div class="col">
+                                    <h6 class="pt-2">
+                                        <b> Reload</b>
+                                    </h6>
+                                </div>
+                                <div class="col">
+                                    <h6 class="pt-2">All Tabs :</h6>
+                                </div>
                                 <div class="col">
                                     <div class="material-switch pull-right pt-2">
                                         <input id="reload" name="tab-reload" type="checkbox" />
                                         <label for="reload" class="label-success"></label>
                                     </div>
                                 </div>
-                                <div class="col-3"><h6 class="pt-2"> Active Tabs :</h6></div>
+                                <div class="col-3">
+                                    <h6 class="pt-2"> Active Tabs :</h6>
+                                </div>
                                 <div class="col">
                                     <div class="material-switch pull-right pt-2">
                                         <input id="reload-active" name="tab-reload-active" type="checkbox" />
@@ -62,7 +79,9 @@
                         </li>
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col"><h6 class="pt-2"> Show Notifications </h6></div>
+                                <div class="col">
+                                    <h6 class="pt-2"> Show Notifications </h6>
+                                </div>
                                 <div class="col">
                                     <div class="material-switch pull-right pt-2">
                                         <input id="notif" name="show-notification" type="checkbox" />
@@ -73,7 +92,9 @@
                         </li>
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col"><h6  class="pt-2">Clean Everything</h6></div>
+                                <div class="col">
+                                    <h6 class="pt-2">Clean Everything</h6>
+                                </div>
                                 <div class="col">
                                     <div class="material-switch pull-right pt-2">
                                         <input id="cleanAll" name="tab-reload" type="checkbox" />
@@ -89,30 +110,32 @@
                             </div>
                             <div class="row"></div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroup-sizing-sm">Since:</span>
                                         </div>
                                         <input type="number" class="form-control" id="since" placeholder="" value="0" max="30" min="0" aria-describedby="inputGroup-sizing-sm">
                                         <div class="input-group-append">
-                                                <span class="input-group-text " id="inputGroup-sizing-sm">Days</span>
+                                            <span class="input-group-text " id="inputGroup-sizing-sm">Days</span>
                                         </div>
-                                      
+
                                     </div>
                                 </div>
-                               
+
                             </div>
                             <div class="row">
-                                    <div class="col">
-                                            <input type="range" id="range" class="custom-range-v1" min="0" step="1" value="0" max="30" id="time-range">
-                                        </div>
+                                <div class="col">
+                                    <input type="range" id="range" class="custom-range-v1" min="0" step="1" value="0" max="30" id="time-range">
+                                </div>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col-6"><h6 class="pt-2">Maximum Limit for Icon Indicator</h6> </div>
-                                <div class="col-4">
+                                <div class="col-6">
+                                    <h6 class="pt-2">Maximum Limit for Icon Indicator</h6>
+                                </div>
+                                <div class="col-3">
                                     <input type="number" class="form-control form-control-sm" id="max-limit" placeholder="" value="0" max="1000" min="0">
                                 </div>
                                 <div class="col"></div>

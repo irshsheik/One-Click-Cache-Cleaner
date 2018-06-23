@@ -1,6 +1,7 @@
 import '../assets/scss/app.scss';
 import OptionService from '../services/OptionService'
 
+
 var reloadEle = document.getElementById('reload');
 var reloadActiveEle = document.getElementById('reload-active');
 var notifEle = document.getElementById('notif');

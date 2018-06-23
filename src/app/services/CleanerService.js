@@ -26,37 +26,18 @@ class CleanerService {
     query() {
         var _this = this;
         _this.sc.cookies = 0;
-        console.log("calling query == cookie length = ", _this.sc.cookies);
-        /**
-         * Iterate through each cookie store and count the total number of cookies
-         */
-        chrome.cookies.getAllCookieStores((cks) => {
-            var total = 0;
-            cks.forEach((ck) => {
-                console.log("each store..");
-                chrome.cookies.getAll(
-                    { storeId: ck.id },
-                    (ck) => {
-                        console.log('cookies', ck);
-                        total = total + ck.length;
-                        _this.add('cookies', total);
-                    });
+        if (chrome.browsingData) {
+            chrome.browsingData.settings((result) => {
+                _this.calculate(result.dataToRemove);
             });
-        });
-
-        /** calculate history values */
-        chrome.history.search({ text: '', maxResults: 1000 }, (data) => {
-            console.log("history data = ", data);
-            _this.add('history', data.length);
-            console.log("scc =", _this.sc);
-        });
+        }
     };
 
     add(key, value) {
         var _this = this;
         _this.sc[key] = value;
-        var maxVal = _this.caculate();
-        chrome.storage.sync.get(['reload', 'reloadActive', 'notification', 'cleanAll', 'since', 'maxLimit'], (r) => {
+        var maxVal = _this.countTotalValue();
+        chrome.storage.sync.get(['maxLimit'], (r) => {
             var limit = r.maxLimit ? r.maxLimit : _this.LIMIT;
             console.log("app.caclutate = ", maxVal, limit);
             if (maxVal >= limit) {
@@ -78,7 +59,7 @@ class CleanerService {
      * compares each of the configued object values.
      * returns the maximum one
      */
-    caculate() {
+    countTotalValue() {
         var _sc = this.sc;
         return Object.keys(_sc)
             .reduce(function (sum, key) {
@@ -88,6 +69,77 @@ class CleanerService {
                 return sum;
             }, 0);
     };
+
+    /**Calculate all elements and update icons accordingly*/
+    calculate(removableData) {
+        var _this = this;
+        if (removableData.cookies) {
+            _this.caculateCookies(removableData.cookies);
+        }
+        if (removableData.history) {
+            _this.caculateHistory(removableData.history);
+        }
+        if (removableData.downloads) {
+            _this.calculateDownloads(removableData.downloads)
+        }
+        if (!removableData.cookies && !removableData.history && !removableData.dataToRemove) {
+            iconService.setDisabledIcon();
+        }
+    }
+
+    /**
+     * checks the total history data length
+     * @param {*} hasHisotry if history is enabled to clean
+     */
+    caculateHistory(hasHisotry) {
+        var _this = this;
+        if (hasHisotry) {
+            /** calculate history values */
+            chrome.history.search({ text: '', maxResults: 1000 }, (data) => {
+                console.log("history data = ", data);
+                _this.add('history', data.length);
+                console.log("scc =", _this.sc);
+            });
+        }
+    }
+
+    /**
+     * calculates the total downloaded items 
+     * @param {*} hasDownloads if downloads is enabled to be cleared
+     */
+    calculateDownloads(hasDownloads) {
+        var _this = this;
+        if (hasDownloads) {
+            chrome.downloads.search({ query: [] }, (data) => {
+                console.log("downloads data =", data);
+                _this.add('downloads', data.length);
+                console.log("scc =", _this.sc);
+            });
+        }
+    }
+
+    /**
+     * Iterate through each cookie store and count the total number of cookies
+     * @param {*} hasCookies if cookies are enabled 
+     */
+    caculateCookies(hasCookies) {
+        var _this = this;
+        if (hasCookies) {
+            chrome.cookies.getAllCookieStores((cks) => {
+                var total = 0;
+                cks.forEach((ck) => {
+                    console.log("each store..");
+                    chrome.cookies.getAll(
+                        { storeId: ck.id },
+                        (ck) => {
+                            console.log('cookies', ck);
+                            total = total + ck.length;
+                            _this.add('cookies', total);
+                        });
+                });
+            });
+        }
+    }
 
     /**   */
     removeCache(callback) {
