@@ -14,20 +14,21 @@ h1, .h1 {
     font-size: 1.15rem; }
   
   h6, .h6 {
-    font-size: .7rem;
+    font-size: .9rem;
 }
 .alert{
-  font-size: .7rem;
+  font-size: .9rem;
   
 }
 kbd{
   padding: 0.2rem 0.2rem ;
   background-color: #ffc107c9;
 }
-.btn-sm, .btn-group-sm > .btn{font-size: .7rem;}
+.btn-sm, .btn-group-sm > .btn{font-size: .8rem; }
 
     .input-group-sm > .input-group-prepend > .input-group-text,
 .input-group-sm > .input-group-append > .input-group-text{
-    font-size: .7rem;
+    font-size: .8rem;
+    font-weight: 600;
 }
   
