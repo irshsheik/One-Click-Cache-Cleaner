@@ -1,6 +1,6 @@
-# bookmarks-reader extension for chrome
-> UNDER DEVELOPMENT
-
-
-    Thank you for stopping by.
+# One Click Cache Cleaner
+> store URL: https://chrome.google.com/webstore/detail/one-click-cache-cleaner/jjlihihlampmodgdbejodahilbaklahj
+    
+    
+Thank you for stopping by.
 
